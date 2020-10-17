@@ -401,7 +401,7 @@ public class PlayerClass implements Serializable {
 		
 	}
 	
-	private void printScoreCard() {
+	public void printScoreCard() {
 		String[] roll = game.getOutCome();
 		System.out.println("--------------------------------------------------------------------------");
 		System.out.println(" Player Name: " + name);
