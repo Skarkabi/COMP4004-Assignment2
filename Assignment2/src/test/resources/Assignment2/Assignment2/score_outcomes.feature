@@ -24,6 +24,7 @@ Feature: score_outcomes
   	|d1			  																										|fc  |outcome |count|type    |count2|type2    |
     |"Diamond, Diamond, Coin, Coin, Parrot, Sword, Skull, Parrot" |"CA"|800     |2    |"Coin"  |2			|"Diamond"|
 		|"Monkey, Monkey, Monkey, Sword, Sword, Sword, Parrot, Parrot"|"CO"|300     |3    |"Monkey"|3     |"Sword"  |
+		|"Sword, Sword, Sword, Parrot, Parrot, Parrot, Parrot, Monkey"|"CO"|400     |3    |"Sword" |4     |"Parrot" |
 
 	Scenario Outline: Player scoring their round after second rolls
 		Given a game of pirates is in progress
@@ -61,8 +62,21 @@ Feature: score_outcomes
     When the value of their dice is <d3>
     Then score is <outcome3> and the Player has <count3> of dice type <type>
     
-    Examples:
+   Examples:
   	|d1			  																									 |d2			 																											|d3																														|fc  |outcome1|count1|outcome2|count2|outcome3|count3|type|
   	|"Skull, Parrot, Parrot, Parrot, Parrot, Sword, Sword, Sword"|"Skull, Parrot, Parrot, Parrot, Parrot, Skull, Monkey, Monkey"|"Skull, Parrot, Parrot, Parrot, Parrot, Skull, Skull, Monkey"|"CO"|400     |1     |300     |2     |0       |3     |"Skull"|
  		
+ 	Scenario Outline: Player scoring their round after three rolls and checking value for two dice symbols
+		Given a game of pirates is in progress
+		When their fortune card is <fc>
+		When the value of their dice is <d1>
+		Then score is <outcome1> and the Player has <count11> of dice type <type1> and <count12> of dice type <type2>
+    When the value of their dice is <d2>
+    Then score is <outcome2> and the Player has <count21> of dice type <type1> and <count22> of dice type <type2>
+    When the value of their dice is <d3>
+    Then score is <outcome3> and the Player has <count31> of dice type <type1> and <count32> of dice type <type2>
+    
+  Examples:
+  	|d1			  																									|d2			 																								 |d3																									 |fc  |outcome1|count11|count12|outcome2|count21|count22|outcome3|count31|count32|type1 |type2  |
+  	|"Sword, Sword, Coin, Monkey, Monkey, Parrot, Parrot, Skull"|"Sword, Sword, Coin, Coin, Monkey, Parrot, Sword, Skull"|"Sword, Sword, Coin, Coin, Coin, Sword, Sword, Skull"|"CO"|200     |2      |2      |500     |3      |3      |800     |4      |4      |"Coin"|"Sword"|
  		 		
