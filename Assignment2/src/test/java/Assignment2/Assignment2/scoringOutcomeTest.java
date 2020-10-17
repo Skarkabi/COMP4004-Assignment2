@@ -17,20 +17,11 @@ public class scoringOutcomeTest {
 		
 	}
 	
-	@When("the value of their dice is {string}, {string}, {string}, {string}, {string}, {string}, {string}, and {string}")
-	public void the_value_of_their_dice_is(String d1, String d2, String d3, String d4, String d5, String d6, String d7, String d8) {
-			String[] dice = new String[8];
-			dice[0] = d1;
-			dice[1] = d2;
-			dice[2] = d3;
-			dice[3] = d4;
-			dice[4] = d5;
-			dice[5] = d6;
-			dice[6] = d7;
-			dice[7] = d8;
-			
-			player.getGame().setCurrentRoll(dice);
-			player.printScoreCard();
+	@When("the value of their dice is {string}")
+	public void the_value_of_their_dice_is(String diceString) {
+		String[] dice = diceString.split(", ");
+		player.getGame().setCurrentRoll(dice);
+		player.printScoreCard();
 		
 		
 	}
