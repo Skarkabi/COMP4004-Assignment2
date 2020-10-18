@@ -5,7 +5,7 @@ Feature: score_outcomes
   Scenario Outline: Player scoring their round after first roll checking one value
     Given a game of pirates is in progress
     When their fortune card is <fc>
-    When the value of their dice is <d1>
+    And the value of their dice is <d1>
     Then score is <outcome> and the Player has <count> of dice type <type>
     
 	Examples:
@@ -23,7 +23,7 @@ Feature: score_outcomes
    Scenario Outline: Player scoring their round after first roll checking two values
     Given a game of pirates is in progress
     When their fortune card is <fc>
-    When the value of their dice is <d1>
+    And the value of their dice is <d1>
     Then score is <outcome> and the Player has <count> of dice type <type> and <count2> of dice type <type2>
     
 	Examples:
@@ -36,7 +36,7 @@ Feature: score_outcomes
 	Scenario Outline: Player scoring their round after second rolls
 		Given a game of pirates is in progress
 		When their fortune card is <fc>
-		When the value of their dice is <d1>
+		And the value of their dice is <d1>
     Then score is <outcome> and the Player has <count> of dice type <type>
     When the value of their dice is <d2>
     Then score is <outcome2> and the Player has <count2> of dice type <type>
@@ -54,7 +54,7 @@ Feature: score_outcomes
  	Scenario Outline: Player scoring their round after second rolls and checking two values
 		Given a game of pirates is in progress
 		When their fortune card is <fc>
-		When the value of their dice is <d1>
+		And the value of their dice is <d1>
     Then score is <outcome1> and the Player has <count11> of dice type <type1> and <count21> of dice type <type2>
     When the value of their dice is <d2>
     Then score is <outcome2> and the Player has <count12> of dice type <type1> and <count22> of dice type <type2>
@@ -66,7 +66,7 @@ Feature: score_outcomes
 	Scenario Outline: Player scoring their round after three rolls
 		Given a game of pirates is in progress
 		When their fortune card is <fc>
-		When the value of their dice is <d1>
+		And the value of their dice is <d1>
 		Then score is <outcome1> and the Player has <count1> of dice type <type>
     When the value of their dice is <d2>
     Then score is <outcome2> and the Player has <count2> of dice type <type>
@@ -82,7 +82,7 @@ Feature: score_outcomes
  	Scenario Outline: Player scoring their round after three rolls and checking value for two dice symbols
 		Given a game of pirates is in progress
 		When their fortune card is <fc>
-		When the value of their dice is <d1>
+		And the value of their dice is <d1>
 		Then score is <outcome1> and the Player has <count11> of dice type <type1> and <count12> of dice type <type2>
     When the value of their dice is <d2>
     Then score is <outcome2> and the Player has <count21> of dice type <type1> and <count22> of dice type <type2>
@@ -98,7 +98,7 @@ Feature: score_outcomes
 	Scenario: Player tries rolling one die after rolling seven swords
 		Given a game of pirates is in progress
 		When their fortune card is "CO"
-		When the value of their dice is "Monkey, Sword, Sword, Sword, Sword, Sword, Sword, Sword"
+		And the value of their dice is "Monkey, Sword, Sword, Sword, Sword, Sword, Sword, Sword"
 		Then score is 2100 and the Player has 7 of dice type "Sword"
 		Then the player succesfully rerolled dice in position "1"? "false"
 		Then the player succesfully rerolled dice in position "1, 2"? "true"
