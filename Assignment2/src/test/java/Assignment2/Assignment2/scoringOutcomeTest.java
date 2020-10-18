@@ -31,6 +31,29 @@ public class scoringOutcomeTest {
 		
 	}
 	
+	@When("they save the dice in position {string}")
+	public void they_save_the_dice_in_position(String pos) {
+		String[] posSplit = pos.split(", ");
+		int[] numPos = new int[posSplit.length];
+		for(int i = 0; i < posSplit.length; i++) {
+			numPos[i] = Integer.parseInt(posSplit[i]);
+			
+		}
+		
+		player.getGame().saveDice(numPos);
+	}
+	
+	@When("they remove the dice in position {string}")
+	public void they_remove_the_dice_in_position(String pos) {
+		String[] posSplit = pos.split(", ");
+		int[] numPos = new int[posSplit.length];
+		for(int i = 0; i < posSplit.length; i++) {
+			numPos[i] = Integer.parseInt(posSplit[i]);
+			
+		}
+		
+		player.getGame().removeDice(numPos);
+	}
 	
 	@Then("the score is not {int}")
 	public void the_score_is_not(int score) {
@@ -116,6 +139,29 @@ public class scoringOutcomeTest {
 		
 		player.printScoreCard();
 		
+	}
+	
+	@Then("score is {int} and the treasure chest has {int} {string} dice inside")
+	public void score_is_and_the_treasure_chest_has_dice_inside(int expectedScore, int count, String type){
+		int score = player.getScore();
+		int typeCount = player.getGame().getChestDiceCount(type);
+		assertEquals(expectedScore, score);
+		assertEquals(count, typeCount);
+		player.printScoreCard();
+		
+	}
+	
+	@Then("score is {int} and the treasure chest has {int} {string} and {int} {string} dice inside")
+	public void score_is_and_the_treasure_chest_has_and_dice_inside(int expectedScore, int count1, String type1, int count2, String type2){
+		int score = player.getScore();
+		boolean dead = player.getGame().isDead();
+		int typeCount1 = player.getGame().getChestDiceCount(type1);
+		int typeCount2 = player.getGame().getChestDiceCount(type2);
+		assertEquals(expectedScore, score);
+		assertEquals(count1, typeCount1);
+		assertEquals(count2, typeCount2);
+		assertFalse(dead);
+		player.printScoreCard();
 	}
 	
 	

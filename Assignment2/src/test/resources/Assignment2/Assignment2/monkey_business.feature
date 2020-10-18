@@ -10,7 +10,7 @@ Feature: Monkey Business Test Cases
   Scenario Outline: Testing Monkey Business Fortune Card Over Several Roll
   	Given a game of pirates is in progress
 		When their fortune card is "MB"
-		And the value of their dice is <d1>
+		A the value of their dice is <d1>
 		Then score is <outcome1> and the Player has <count11> of dice type "Monkey" and <count12> of dice type "Parrot"
     When the value of their dice is <d2>
     Then score is <outcome2> and the Player has <count21> of dice type "Monkey" and <count22> of dice type "Parrot"
