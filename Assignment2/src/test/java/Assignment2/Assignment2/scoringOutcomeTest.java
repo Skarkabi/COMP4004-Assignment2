@@ -56,6 +56,7 @@ public class scoringOutcomeTest {
 			assertFalse(dead);
 		}
 		
+		player.printScoreCard();
 		
 	}
 	
