@@ -2,6 +2,7 @@ package Assignment2.Assignment2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import io.cucumber.java.en.Given;
@@ -28,6 +29,44 @@ public class scoringOutcomeTest {
 	public void their_fortune_card_is(String fc) {
 		player.getGame().setFortuneCard(fc);
 		
+	}
+	
+	
+	@Then("the score is not {int}")
+	public void the_score_is_not(int score) {
+		assertNotEquals(0, player.getScore());
+		
+	}
+	
+	@Then("the turn is over? {string}")
+	public void the_turn_is_over(String over) {
+		player.getGame().setTurn(Boolean.parseBoolean(over));
+		
+		if(over.equals("false")) {
+			assertTrue(player.getGame().isTurnOver());
+			
+		}else {
+			assertFalse(player.getGame().isTurnOver());
+		}
+		
+	}
+	
+	@Then("the player is dead? {string}")
+	public void the_player_is_dead(String outcome) {
+		if(outcome.equals("true")) {
+			assertTrue(player.getGame().isDead());
+			
+		}else {
+			assertFalse(player.getGame().isDead());
+		}
+		
+	}
+	
+	@Then("the dice rerolled in position {int} is no longer a {string}")
+	public void the_dice_rerolled_in_position_is_no_longer_a(int pos, String type) {
+		String[] currentDice = player.getGame().getOutCome();
+		assertNotEquals(currentDice[pos - 1], type);
+		player.printScoreCard();
 	}
 	
 	@Then("the player succesfully rerolled dice in position {string}? {string}")
