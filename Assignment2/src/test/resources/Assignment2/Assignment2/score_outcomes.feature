@@ -93,4 +93,13 @@ Feature: score_outcomes
   	|d1			  																									|d2			 																								 |d3																									 |fc  |outcome1|count11|count12|outcome2|count21|count22|outcome3|count31|count32|type1 |type2  |
   	|"Sword, Sword, Coin, Monkey, Monkey, Parrot, Parrot, Skull"|"Sword, Sword, Coin, Coin, Monkey, Parrot, Sword, Skull"|"Sword, Sword, Coin, Coin, Coin, Sword, Sword, Skull"|"CO"|200     |2      |2      |500     |3      |3      |800     |4      |4      |"Coin"|"Sword"|
   	|"Sword, Sword, Coin, Monkey, Monkey, Parrot, Parrot, Skull"|"Sword, Sword, Coin, Coin, Monkey, Parrot, Sword, Skull"|"Sword, Sword, Coin, Coin, Coin, Sword, Sword, Skull"|"CA"|200     |1      |2      |600     |2      |3      |1200    |3      |4      |"Coin"|"Sword"|
- 		 		
+ 	
+ 	
+	Scenario: Player tries rolling one die after rolling seven swords
+		Given a game of pirates is in progress
+		When their fortune card is "CO"
+		When the value of their dice is "Monkey, Sword, Sword, Sword, Sword, Sword, Sword, Sword"
+		Then score is 2100 and the Player has 7 of dice type "Sword"
+		Then the player succesfully rerolled dice in position "1"? "false"
+		Then the player succesfully rerolled dice in position "1, 2"? "true"
+		  	 		

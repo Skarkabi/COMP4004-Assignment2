@@ -21,8 +21,6 @@ public class scoringOutcomeTest {
 	public void the_value_of_their_dice_is(String diceString) {
 		String[] dice = diceString.split(", ");
 		player.getGame().setCurrentRoll(dice);
-		player.printScoreCard();
-		
 		
 	}
 	
@@ -30,6 +28,18 @@ public class scoringOutcomeTest {
 	public void their_fortune_card_is(String fc) {
 		player.getGame().setFortuneCard(fc);
 		
+	}
+	
+	@Then("the player succesfully rerolled dice in position {string}? {string}")
+	public void player_rerolls_dice_in(String pos, String outcome) {
+		String[] posSplit = pos.split(", ");
+		int[] numPos = new int[posSplit.length];
+		for(int i = 0; i < posSplit.length; i++) {
+			numPos[i] = Integer.parseInt(posSplit[i]);
+			
+		}
+		
+		assertEquals(String.valueOf(player.getGame().reRoll(numPos)), outcome);
 	}
 	
 
