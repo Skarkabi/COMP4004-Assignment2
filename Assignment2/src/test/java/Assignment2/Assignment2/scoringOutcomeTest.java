@@ -60,6 +60,22 @@ public class scoringOutcomeTest {
 		if(s.equals("end")) { player.getGame().setTurn(false); } 
 	}
 	
+	@Then("the full chest is {string}")
+	public void the_full_chest_is(String chest) {
+		if(chest.equals("Active")) {
+			assertTrue(player.getGame().getFullChestActive());
+			
+		}else {
+			assertFalse(player.getGame().getFullChestActive());
+		}
+	}
+	
+	@Then("the score is {int}")
+	public void the_score_is(int score) {
+		assertEquals(score, player.getScore());
+		player.printScoreCard();
+	}
+	
 	@Then("the score is not {int}")
 	public void the_score_is_not(int score) {
 		assertNotEquals(0, player.getScore());
