@@ -213,6 +213,8 @@ public class Game implements Serializable {
 	
 	public boolean getFirstTurn() { return firstTurn;}
 	
+	public boolean getFullChestActive() { return fullChestActive; }
+	
 	public boolean inSkullIsland() {
 		if(firstTurn) {
 			if(getSymbolCount("Skull") > 3) { alreadyInSkullIsland = true; }
