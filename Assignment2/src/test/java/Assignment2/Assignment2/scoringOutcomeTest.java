@@ -55,6 +55,11 @@ public class scoringOutcomeTest {
 		player.getGame().removeDice(numPos);
 	}
 	
+	@When("they {string} their turn")
+	public void they_end_their_turn(String s) {
+		if(s.equals("end")) { player.getGame().setTurn(false); } 
+	}
+	
 	@Then("the score is not {int}")
 	public void the_score_is_not(int score) {
 		assertNotEquals(0, player.getScore());
@@ -62,14 +67,13 @@ public class scoringOutcomeTest {
 	}
 	
 	@Then("the turn is over? {string}")
-	public void the_turn_is_over(String over) {
-		player.getGame().setTurn(Boolean.parseBoolean(over));
-		
+	public void the_turn_is_over(String over) {		
+		System.out.println("This is what the player has " + player.getGame().isTurnOver());
 		if(over.equals("false")) {
-			assertTrue(player.getGame().isTurnOver());
+			assertFalse(player.getGame().isTurnOver());
 			
 		}else {
-			assertFalse(player.getGame().isTurnOver());
+			assertTrue(player.getGame().isTurnOver());
 		}
 		
 	}
@@ -77,6 +81,7 @@ public class scoringOutcomeTest {
 	@Then("the player is dead? {string}")
 	public void the_player_is_dead(String outcome) {
 		if(outcome.equals("true")) {
+			System.out.println("The player is dead is " + player.getGame().isDead());
 			assertTrue(player.getGame().isDead());
 			
 		}else {
@@ -164,6 +169,4 @@ public class scoringOutcomeTest {
 		player.printScoreCard();
 	}
 	
-	
-
 }

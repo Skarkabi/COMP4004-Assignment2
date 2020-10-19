@@ -22,12 +22,13 @@ Feature: Sorceress Test Cases
 		Then the player succesfully rerolled dice in position "1"? "false"
 		Then the player succesfully rerolled dice in position "1, 2"? "true"
 		And the dice rerolled in position 1 is no longer a "Skull"
+		When they <end> their turn 
 		And the turn is over? <outcome>
 		And the player is dead? "false"
 		And the score is not 0
 		
 	Examples:
-		|outcome|
-		|"true" |
-		|"false"|
+		|end         |outcome|
+		|"end"       |"true" |
+		|"do not end"|"false"|
 		
