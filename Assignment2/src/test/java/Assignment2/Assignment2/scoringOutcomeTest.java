@@ -60,6 +60,17 @@ public class scoringOutcomeTest {
 		if(s.equals("end")) { player.getGame().setTurn(false); } 
 	}
 	
+	@When("their score is {int}")
+	public void their_score_is(int score) {
+		player.setScore(score);
+		
+	}
+	
+	@When("it is their second turn")
+	public void it_is_theirs_srcond_turn() {
+		player.getGame().setFirstTurn(false);
+	}
+	
 	@Then("the full chest is {string}")
 	public void the_full_chest_is(String chest) {
 		if(chest.equals("Active")) {
@@ -68,6 +79,22 @@ public class scoringOutcomeTest {
 		}else {
 			assertFalse(player.getGame().getFullChestActive());
 		}
+	}
+	
+	@Then("score is {int} and the player {string} have {int} swords")
+	public void score_is_and_the_player_does_not_have_swords(int expectedScore, String action, int count) {
+		int score = player.getScore();
+		boolean dead = player.getGame().isDead();
+		int typeCount = player.getGame().getSymbolCount("Sword");
+		assertEquals(expectedScore, score);
+		if(action.equals("does")) {
+			assertEquals(count, typeCount);
+		}else {
+			assertNotEquals(count, typeCount);
+		}
+		
+		player.printScoreCard();
+		
 	}
 	
 	@Then("the score is {int}")
@@ -82,9 +109,20 @@ public class scoringOutcomeTest {
 		
 	}
 	
+	@Then("their are {string} than or equal to {int} swords")
+	public void their_are_than_swords(String equal, int count) {
+		if(equal.equals("greater")) {
+			assertTrue(player.getGame().getSymbolCount("Sword") >= count);
+			
+		}else {
+			assertTrue(player.getGame().getSymbolCount("Sword") <= count);
+				
+		}
+			
+	}
+	
 	@Then("the turn is over? {string}")
 	public void the_turn_is_over(String over) {		
-		System.out.println("This is what the player has " + player.getGame().isTurnOver());
 		if(over.equals("false")) {
 			assertFalse(player.getGame().isTurnOver());
 			
@@ -97,7 +135,6 @@ public class scoringOutcomeTest {
 	@Then("the player is dead? {string}")
 	public void the_player_is_dead(String outcome) {
 		if(outcome.equals("true")) {
-			System.out.println("The player is dead is " + player.getGame().isDead());
 			assertTrue(player.getGame().isDead());
 			
 		}else {
