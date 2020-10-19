@@ -15,6 +15,7 @@ public class Game implements Serializable {
 	private int soCount = 0;
 	private int[] tChest = new int[8];
 	private int[] diceSavedPosition;
+	private boolean fullChestActive = false;
 
 	public int getSymbolCount(String s) {
 		int count = 0;
@@ -50,8 +51,16 @@ public class Game implements Serializable {
 		if((FC.equals("CO") && getSymbolCount("Coin") != 9 && getSymbolCount("Coin") > 1) || 
 				(FC.equals("DI") && getSymbolCount("Diamond") != 9 && getSymbolCount("Diamond") > 1)) { d = d - 1; }
 		
-		if(d == 8 && getSymbolCount("Skull") == 0) { return true; }
-		else { return false; }
+		if(d == 8 && getSymbolCount("Skull") == 0) { 
+			fullChestActive = true;
+			return true; 
+			
+		}
+		else { 
+			fullChestActive = false;
+			return false; 
+		
+		}
 		
 	}
 	
