@@ -84,7 +84,13 @@ public class PlayerClass implements Serializable {
 	
 	public void setDeductionToSend(int i) { deductionToSend = i; }
 	
-	public int getDeductionSent() { return deductionToSend; }
+	public int getDeductionSent() {
+		if(game.getFortuneCard().equals("CA")) {
+			return (2 * deductionToSend);
+		}else {
+			return deductionToSend; 
+		}
+	}
 	
 	public void startGame() {
 		boolean lastRound = false;
