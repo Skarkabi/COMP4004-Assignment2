@@ -64,6 +64,11 @@ public class PlayerClass implements Serializable {
 	public void setScore(int s) { score = s; }
 	
 	public int getScore() {
+		if(players.length > 1) {
+			for(int i = 0; i < players.length; i++) {
+				deductionReceived = deductionReceived + players[i].getDeductionSent();
+			}
+		}
 		if(scoreRound(1) - deductionReceived > 0) {
 			score = scoreRound(1) - deductionReceived;
 		
@@ -72,6 +77,8 @@ public class PlayerClass implements Serializable {
 			
 		}
 		
+		score = score - deductionReceived;
+		if(score < 0) { score = 0; }
 		return score;
 		
 	}
