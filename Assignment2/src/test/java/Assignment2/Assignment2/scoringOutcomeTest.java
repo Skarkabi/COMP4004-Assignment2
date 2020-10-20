@@ -11,6 +11,63 @@ import io.cucumber.java.en.Then;
 
 public class scoringOutcomeTest {
 	PlayerClass player;
+	PlayerClass player2;
+	PlayerClass player3;
+	PlayerClass[] players;
+	
+	@Given("a game of pirates with three players is in progress")
+	public void  a_game_of_pirates_with_three_players_is_in_progress() {
+		player = new PlayerClass("Player 1");
+		player2 = new PlayerClass("Player 2");
+		player3 = new PlayerClass("Player 3");
+		
+	}
+	
+	@When("player ones fortune card is {string}")
+	public void player_ones_fortune_card_is(String fc) {
+		player.getGame().setFortuneCard(fc);
+	}
+	
+	@When("the value of player ones dice is {string}")
+	public void the_value_of_player_ones_dice_is(String diceString) {
+		String[] dice = diceString.split(", ");
+		player.getGame().setCurrentRoll(dice);
+		
+	}
+	
+	
+	@When("player two received the deduction")
+	public void player_two_received_the_deduction() {
+		players = new PlayerClass[3];
+		players[0] = player;
+		players[1] = player2;
+		players[2] = player3;
+		
+		player2.setPlayers(players);
+		System.out.println("sdfd: " + player2.players.length);
+	}
+	
+	@When("player three received the deduction")
+	public void player_three_received_the_deduction() {
+		players = new PlayerClass[3];
+		players[0] = player;
+		players[1] = player2;
+		players[2] = player3;
+		
+		player3.setPlayers(players);
+	}
+	
+	@Then("player two has a deduction of {int}")
+	public void player_two_has_a_deduction_of(int p) {
+		assertEquals(p, player2.getDeductionReceived());
+		
+	}
+	
+	@Then("player three has a deduction of {int}")
+	public void three(int p) {
+		assertEquals(p, player3.getDeductionReceived());
+		
+	}
 	
 	@Given("^a game of pirates is in progress$")
 	public void a_game_of_pirates_is_in_progress() {
@@ -107,6 +164,11 @@ public class scoringOutcomeTest {
 	public void the_score_is_not(int score) {
 		assertNotEquals(0, player.getScore());
 		
+	}
+	
+	@Then("the penalty being sent is {int}")
+	public void the_penalty_being_sent_is(int p) {
+		assertEquals(p, player.getDeductionSent());
 	}
 	
 	@Then("their are {string} than or equal to {int} swords")
