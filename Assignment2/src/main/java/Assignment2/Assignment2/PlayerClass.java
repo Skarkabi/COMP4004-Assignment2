@@ -37,6 +37,19 @@ public class PlayerClass implements Serializable {
 			
 	 }
 	 
+	public void setPlayers(PlayerClass[] pl) { 
+		
+		players = pl; 
+		System.out.println("thisissdfdsf " + pl.length + " " + players[0].getDeductionSent());
+		if(players.length > 1) {
+			for(int i = 0; i < players.length; i++) {
+				
+					deductionReceived = deductionReceived + players[i].getDeductionSent();
+			
+				
+			}
+		}
+	}
 	public int getPlayerId() { return playerId; }
 	 
 	public void setLastTurn(boolean t) { finalMove = t; }
@@ -64,11 +77,6 @@ public class PlayerClass implements Serializable {
 	public void setScore(int s) { score = s; }
 	
 	public int getScore() {
-		if(players.length > 1) {
-			for(int i = 0; i < players.length; i++) {
-				deductionReceived = deductionReceived + players[i].getDeductionSent();
-			}
-		}
 		if(scoreRound(1) - deductionReceived > 0) {
 			score = scoreRound(1) - deductionReceived;
 		
