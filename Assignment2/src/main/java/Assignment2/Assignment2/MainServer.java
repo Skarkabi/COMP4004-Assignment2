@@ -18,7 +18,8 @@ public class MainServer implements Serializable {
 	static String[] fortuneCards = new String[35];
 	int cardsTaken = 0;
 	Game game = new Game();
-	
+	int[] scores;
+	int[] pScores;
 	Server[] playerServer;
 	PlayerClass[] players;
 	ServerSocket ss;
@@ -156,9 +157,11 @@ public class MainServer implements Serializable {
 	}
 	
 	public void gameLoop() {
+		boolean erase, first;
 		int topScore = 0;
 		boolean lastMove = false;
-		
+		int[] scoreHolder = new int[players.length];
+		scores = new int[players.length];
 		try {
 			while(!finalTurn) {
 				turnsMade++;
@@ -167,6 +170,18 @@ public class MainServer implements Serializable {
 				System.out.println("\n*****************************************");
 				System.out.println("Round number " + turnsMade);
 				for(int i = 0; i < playerServer.length; i++) {
+					if((i+1) == playerServer.length) {
+						erase = true;
+					}else {
+						erase = false;
+					}
+					
+				    if(i == 0) {
+				    	first = true;
+				    }else {
+				    	first = false;
+				    }
+				    
 					playerServer[i].sendPlayers(players);
 					if(lastMove) { playerServer[i].sendLastRound(true); }
 					
@@ -175,20 +190,33 @@ public class MainServer implements Serializable {
 					playerServer[i].sendFortuneCard();
 					playerServer[i].sendTurnNo(turnsMade);
 					cardsTaken++;
-					players[i].setScore(playerServer[i].receiveScores()[0]);
+					scores[i] = playerServer[i].receiveScores()[0];
+					scoreHolder[i] = scores[i];
+					if(first && (pScores != null)) {
+						for(int j = 1; j < pScores.length; j++) {
+							scores[j] = pScores[j];
+						}
+					}
 					
-					System.out.println("\nPlayer " + (i + 1) + " completed turn and their score is " + players[i].getScoreBeforeCalulating());
+					playerServer[i].sendPlayerScores(scores, erase, first);
+					System.out.println("My Score is " + scores[i]);
+					
+					
+					System.out.println("\nPlayer " + (i + 1) + " completed turn and their score is " + scores[i]);
 					
 				}
 				
-				for(int i = 0; i < players.length; i++) {
-					if(topScore < players[i].getScoreBeforeCalulating()) {
-						topScore = players[i].getScoreBeforeCalulating();
+				for(int i = 0; i < scoreHolder.length; i++) {
+					if(topScore < scoreHolder[i]) {
+						topScore = scoreHolder[i];
 						winningPlayer = players[i];
 						
 					}
 					
-					if(players[i].getScoreBeforeCalulating() >= 6000) { lastMove = true; }
+					
+					System.out.println("This is score " + (i+1) + " " + scoreHolder[i]);
+					
+					if(scoreHolder[i] > 6000) { lastMove = true; }
 					
 				}
 			
@@ -196,7 +224,7 @@ public class MainServer implements Serializable {
 			
 			System.out.println("The Winner is " + winningPlayer.getName() + " With a score of " + winningPlayer.getScoreBeforeCalulating());
 			for(int i = 0; i < playerServer.length; i++) {
-				playerServer[i].sendWinner("The Winner is Player " + winningPlayer.getPlayerId() + ", " + winningPlayer.getName() + ", With a score of " + winningPlayer.getScoreBeforeCalulating());
+				playerServer[i].sendWinner("The Winner is Player " + winningPlayer.getPlayerId() + ", " + winningPlayer.getName() + ", With a score of " + scoreHolder[i]);
 			
 			}
 			
@@ -246,11 +274,9 @@ public class MainServer implements Serializable {
 		public void sendPlayers(PlayerClass[] pl) {
 			try {
 				System.out.println("Sending player now");
-				for(PlayerClass p : pl) {
-					jOut.writeObject(pl);
-					jOut.flush();
-					
-				}
+				jOut.writeObject(pl);
+				jOut.flush();
+				
 
 			} catch (IOException ex) {
 				System.out.println("Players not sent");
@@ -259,7 +285,33 @@ public class MainServer implements Serializable {
 			}
 
 		}
+
 		
+		public void sendPlayerScores(int[] s, boolean erase, boolean first) {
+			try {
+				System.out.println("Sending these scores now ");
+				for(int i = 0; i < s.length; i++) {
+					System.out.print(s[i] + ", ");
+					
+				}
+				System.out.println();
+			
+					jOut.writeObject(s);
+					jOut.flush();
+					
+				
+				
+				if(erase) { 
+					pScores = s;
+					scores = new int[players.length]; }
+
+			} catch (IOException ex) {
+				System.out.println("scoresss not sent");
+				ex.printStackTrace();
+				
+			}
+			
+		}
 		public void sendFortuneCard() {
 			try {
 				if(cardsTaken == 35) {
@@ -312,8 +364,9 @@ public class MainServer implements Serializable {
 					Object scc = jIn.readObject();
 					sc[i] = Integer.parseInt(scc.toString());
 					
+					
 				}
-				
+				System.out.println("I received this score from player " + sc[0]);
 				return sc;
 				
 			}catch (Exception e) {
@@ -323,6 +376,27 @@ public class MainServer implements Serializable {
 			}
 			
 			return null;
+		
+		}
+		
+		public PlayerClass receivePlayer() {
+			PlayerClass pl = new PlayerClass("");
+			
+			try {
+				pl = (PlayerClass) jIn.readObject();
+				System.out.println("Player recieved");
+				return pl;
+
+			} catch (IOException e) {
+				System.out.println("Player not received");
+				e.printStackTrace();
+				
+			} catch (ClassNotFoundException e) {
+				System.out.println("class not found");
+				e.printStackTrace();
+				
+			}
+			return pl;
 			
 		}
 		
