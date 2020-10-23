@@ -1,26 +1,26 @@
+Feature: Feature To Show Dice Score & Symbol Count after the one reroll
+  I want to use this template to demonstrate the scoring functionality after the one reroll
 
-Feature: Title of your feature
-  I want to use this template for my feature file
-
-  Scenario Outline: Player scoring their round after second rolls
+  Scenario Outline: Player scoring their round after first reroll
 		Given a game of pirates is in progress
 		When their fortune card is <fc>
 		And the value of their dice is <d1>
     Then score is <outcome> and the Player has <count> of dice type <type>
     When the value of their dice is <d2>
     Then score is <outcome2> and the Player has <count2> of dice type <type>
+    And the player is dead? <dead>
     
    Examples:
-  	|d1			  																									    |d2			 																										     |fc  |outcome|count|outcome2|count2|type     |
-  	|"Skull, Parrot, Parrot, Parrot, Parrot, Sword, Sword, Sword"   |"Skull, Parrot, Parrot, Parrot, Parrot, Skull, Skull, Sword"    |"CA"|600		|1    |0       |3     |"Skull"  |
- 		|"Skull, Skull, Parrot, Parrot, Parrot, Parrot, Sword, Sword"   |"Skull, Skull, Parrot, Parrot, Parrot, Parrot, Skull, Sword"    |"CA"|400		|2		|0       |3     |"Skull"  |
- 		|"Monkey, Monkey, Parrot, Sword, Sword, Parrot, Skull, Skull"   |"Monkey, Monkey, Monkey, Sword, Sword, Parrot, Skull, Skull"    |"CO"|100    |2    |200     |3     |"Monkey" |
- 		|"Diamond, Monkey, Monkey, Sword, Sword, Parrot, Parrot, Skull" |"Diamond, Monkey, Monkey, Sword, Sword, Diamond, Parrot, Skull" |"DI"|200    |2    |400     |3     |"Diamond"|
- 		|"Diamond, Diamond, Monkey, Sword, Sword, Parrot, Parrot, Skull"|"Diamond, Diamond, Monkey, Sword, Sword, Diamond, Parrot, Skull"|"CO"|300    |2    |500     |3     |"Diamond"|
- 		|"Coin, Coin, Monkey, Sword, Sword, Parrot, Parrot, Monkey"     |"Coin, Coin, Monkey, Sword, Sword, Parrot, Parrot, Coin"        |"CO"|400    |3    |600     |4     |"Coin"   |
- 		|"Coin, Coin, Monkey, Sword, Sword, Parrot, Parrot, Monkey"     |"Coin, Coin, Monkey, Sword, Sword, Parrot, Parrot, Coin"        |"DI"|300    |2    |500     |3     |"Coin"   |
+  	|d1			  																									    |d2			 																										     |fc  |outcome|count|outcome2|count2|type     |dead   |
+  	|"Skull, Parrot, Parrot, Parrot, Parrot, Sword, Sword, Sword"   |"Skull, Parrot, Parrot, Parrot, Parrot, Skull, Skull, Sword"    |"CA"|600		|1    |0       |3     |"Skull"  |"true" |
+ 		|"Skull, Skull, Parrot, Parrot, Parrot, Parrot, Sword, Sword"   |"Skull, Skull, Parrot, Parrot, Parrot, Parrot, Skull, Sword"    |"CA"|400		|2		|0       |3     |"Skull"  |"true" |
+ 		|"Monkey, Monkey, Parrot, Sword, Sword, Parrot, Skull, Skull"   |"Monkey, Monkey, Monkey, Sword, Sword, Parrot, Skull, Skull"    |"CO"|100    |2    |200     |3     |"Monkey" |"false"|
+ 		|"Diamond, Monkey, Monkey, Sword, Sword, Parrot, Parrot, Skull" |"Diamond, Monkey, Monkey, Sword, Sword, Diamond, Parrot, Skull" |"DI"|200    |2    |400     |3     |"Diamond"|"false"|
+ 		|"Diamond, Diamond, Monkey, Sword, Sword, Parrot, Parrot, Skull"|"Diamond, Diamond, Monkey, Sword, Sword, Diamond, Parrot, Skull"|"CO"|300    |2    |500     |3     |"Diamond"|"false"|
+ 		|"Coin, Coin, Monkey, Sword, Sword, Parrot, Parrot, Monkey"     |"Coin, Coin, Monkey, Sword, Sword, Parrot, Parrot, Coin"        |"CO"|400    |3    |600     |4     |"Coin"   |"false"|
+ 		|"Coin, Coin, Monkey, Sword, Sword, Parrot, Parrot, Monkey"     |"Coin, Coin, Monkey, Sword, Sword, Parrot, Parrot, Coin"        |"DI"|300    |2    |500     |3     |"Coin"   |"false"|
  	
- 	Scenario Outline: Player scoring their round after second rolls and checking two values
+ 	Scenario Outline: Player scoring fghbfgb round after second rolls and checking two values
 		Given a game of pirates is in progress
 		When their fortune card is <fc>
 		And the value of their dice is <d1>
