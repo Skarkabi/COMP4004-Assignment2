@@ -1,6 +1,7 @@
 Feature: Feature To Show Dice Score & Symbol Count after the first roll
   I want to use this template to demonstrate the scoring functionality on the first roll
   
+  @Rows39,48,49,54,55,56,57,58
 	Scenario Outline: Player scoring their round after first roll checking one value
     Given a game of pirates is in progress
     When their fortune card is <fc>
@@ -27,8 +28,9 @@ Feature: Feature To Show Dice Score & Symbol Count after the first roll
     |"Coin, Coin, Coin, Coin, Coin, Coin, Coin, Coin"                |"DI"|5400   |8    |"Coin"   |"false"|
     |"Sword, Sword, Sword, Sword, Sword, Sword, Sword, Sword"        |"CA"|9000   |8    |"Sword"  |"false"|
     
-    
-   Scenario Outline: Player scoring their round after first roll checking two values
+  
+  @Rows44,46,50,64  
+  Scenario Outline: Player scoring their round after first roll checking two values
     Given a game of pirates is in progress
     When their fortune card is <fc>
     And the value of their dice is <d1>
