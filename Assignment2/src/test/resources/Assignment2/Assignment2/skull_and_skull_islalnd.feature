@@ -1,8 +1,7 @@
-
 Feature: Title of your feature
   I want to use this template for my feature file
 
-
+	@Rows101,102,103
   Scenario Outline: Title of your scenario outline
     Given a game of pirates is in progress
     When their fortune card is <fc>
@@ -11,12 +10,16 @@ Feature: Title of your feature
     And the player is dead? <dead>
     And the penalty being sent is <penalty>
 
-    Examples: 
+	 #Row 101
+	 #Row 102
+	 #Row 103
+   Examples: 
       |d1																														|fc   |outcome|dead   |penalty|
 			|"Skull, Monkey, Monkey, Sword, Sword, Parrot, Parrot, Monkey"|"SK2"|0      |"true" |0      |
 			|"Skull, Skull, Monkey, Monkey, Sword, Sword, Parrot, Parrot" |"SK1"|0      |"true" |0      |
 			|"Skull, Skull, Skull, Skull, Skull, Monkey, Sword, Parrot"   |"CA" |0      |"false"|1000   |
 	
+	@Row105
 	Scenario: Title of your scenario
     Given a game of pirates with three players is in progress 
     When player ones fortune card is "SK2"
@@ -33,7 +36,8 @@ Feature: Title of your feature
     And player two has a deduction of 500
     And player three has a deduction of 500
     
-			
+	
+	@Row104,106
 	Scenario Outline: Title of your scenario outline2
     Given a game of pirates with three players is in progress 
     When player ones fortune card is <fc>
@@ -54,6 +58,8 @@ Feature: Title of your feature
     And player three has a deduction of <penalty3>
     
 
+		#Row 104
+		#Row 106
     Examples: 
       |d1																													 |d2																												|d3																												 |fc   |dead   |penalty1|penalty2|penalty3|
       |"Skull, Skull, Monkey, Monkey, Sword, Sword, Parrot, Parrot"|"Skull, Skull, Skull, Skull, Sword, Sword, Parrot, Parrot"|"Skull, Skull, Skull, Skull, Skull, Sword, Parrot, Parrot"|"SK2"|"false"|400     |600     |700     |

@@ -1,12 +1,14 @@
 Feature: Monkey Business Test Cases
   Player should recieve appropriate score with the Monkey Business Fortune Card
 
+	@Row76
   Scenario: Corresponding to Excel sheet row 76
   	Given a game of pirates is in progress
   	When their fortune card is "MB"
     And the value of their dice is "Monkey, Monkey, Monkey, Parrot, Parrot, Parrot, Skull, Coin"
     Then score is 1100 and the Player has 3 of dice type "Monkey" and 3 of dice type "Parrot"
-    
+  
+  @Row77,78
   Scenario Outline: Testing Monkey Business Fortune Card Over Several Roll
   	Given a game of pirates is in progress
 		When their fortune card is "MB"

@@ -1,6 +1,8 @@
 Feature: Title of your feature
   I want to use this template for my feature file
 
+
+ @Row110,111,112,114,117,120
  Scenario Outline: Player scoring their round after first roll
     Given a game of pirates is in progress
     When their fortune card is <fc>
@@ -9,6 +11,12 @@ Feature: Title of your feature
     Then score is <outcome> and the player <action> have <count> swords
     And the player is dead? <dead>
     
+  #Row 110
+  #Row 111
+  #Row 112
+  #Row 114
+  #Row 117
+  #Row 120
 	Examples:
   	|d1			  																								    |fc       |input|outcome|action    |count|dead   |
   	|"Skull, Skull, Skull, Parrot, Parrot, Parrot, Diamond, Sword"|"SB2300" |300  |0      |"does not"|2    |"true" |
@@ -19,6 +27,8 @@ Feature: Title of your feature
   	|"Monkey, Monkey, Monkey, Sword, Sword, Sword, Sword, Skull"  |"SB41000"|0    |1300   |"does"    |4    |"false"|
   	
   	
+
+@Rows115,118
  Scenario Outline: Player scoring their round after a reroll
     Given a game of pirates is in progress
     When their fortune card is <fc>
@@ -31,7 +41,9 @@ Feature: Title of your feature
     Then the score is <outcome>
     And their are "greater" than or equal to <count> swords
     And the player is dead? <dead>
-    
+  
+  #Row 115
+  #Row 118
 	Examples:
   	|d1			  																								     |d2                                                          |fc      |input|outcome|count|dead   |
   	|"Monkey, Monkey, Monkey, Monkey, Sword, Skull, Parrot, Parrot"|"Monkey, Monkey, Monkey, Monkey, Sword, Skull, Sword, Skull"|"SB2300"|0    |500    |2    |"false"|

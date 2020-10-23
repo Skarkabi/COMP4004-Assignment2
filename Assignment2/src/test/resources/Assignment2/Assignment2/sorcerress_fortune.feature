@@ -1,6 +1,7 @@
 Feature: Sorceress Test Cases
   Player should recieve appropriate score with the Sorceress Fortune Card
 
+	@Row71
   Scenario: Corresponding to excel row 71
     Given a game of pirates is in progress
    	When their fortune card is "SO"
@@ -11,7 +12,8 @@ Feature: Sorceress Test Cases
 		Then the player succesfully rerolled dice in position "1, 3"? "true" 
 		And the dice rerolled in position 1 is no longer a "Skull"
 		
-		
+	
+	@Row72
 	Scenario Outline: Corresponding to excel row 72
 		Given a game of pirates is in progress
 		When their fortune card is "SO"

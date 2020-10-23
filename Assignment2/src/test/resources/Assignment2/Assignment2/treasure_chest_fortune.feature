@@ -1,6 +1,7 @@
 Feature: Features relating to Treasure Chest Fortune Card
   I want to use this template to accuratly score the game when the fortune card is the Treasure Chest
 
+	@Row81
 	Scenario: corresponding to row 81
 		Given a game of pirates is in progress
 		When their fortune card is "TC"
@@ -15,6 +16,7 @@ Feature: Features relating to Treasure Chest Fortune Card
 		Then score is 1100 and the treasure chest has 5 "Parrot" dice inside
 		And the player is dead? "false"
 		
+	@Row86
 	Scenario: corresponding to row 86
 		Given a game of pirates is in progress
 		When their fortune card is "TC"
