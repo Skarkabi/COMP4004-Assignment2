@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.concurrent.TimeUnit;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -14,12 +16,259 @@ public class scoringOutcomeTest {
 	PlayerClass player2;
 	PlayerClass player3;
 	PlayerClass[] players;
+	MainServer server;
+	int turnsMade = 0;
+	int[] scores;
+	int[] scores2;
+	int[] scores3;
+	
+	@Given("a game of pirates server has started")
+	public void a_game_of_pirates_server_has_started() throws InterruptedException {
+		try {
+			server = new MainServer(3);
+			MainServer.setFortuneCards();
+			players = new PlayerClass[3];
+			player = new PlayerClass("Player 1");
+			player2 = new PlayerClass("Player 2");
+			player3 = new PlayerClass("Player 3");
+			
+			players[0] = player;
+			players[1] = player2;
+			players[2] = player3;
+			
+			
+			Thread thread1 = new Thread() {
+			    public void run() {
+			    	try {
+			    		TimeUnit.SECONDS.sleep(1);
+						player.connectToClient();
+						TimeUnit.SECONDS.sleep(1);
+						player2.connectToClient();
+						TimeUnit.SECONDS.sleep(1);
+						player3.connectToClient();
+					
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    }
+			};
+			
+			Thread thread2 = new Thread() {
+			    public void run() {
+			    	try {
+			    		server.ConnectToTestClient1();
+			    		TimeUnit.SECONDS.sleep(1);
+			    		server.ConnectToTestClient2();
+			    		TimeUnit.SECONDS.sleep(1);
+			    		server.ConnectToTestClient3();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    }
+			};
+			
+			thread1.start();
+			thread2.start();
+			
+			thread1.join();
+			thread2.join();
+			
+			
+			
+			//server.ConnectToTestClient2();
+			//player2.connectToClient();
+		//	server.ConnectToTestClient3();
+		//	player3.connectToClient();
+			
+			
+			
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		}
+		
+		
+		
+	}
 	
 	@Given("a game of pirates with three players is in progress")
 	public void  a_game_of_pirates_with_three_players_is_in_progress() {
 		player = new PlayerClass("Player 1");
 		player2 = new PlayerClass("Player 2");
 		player3 = new PlayerClass("Player 3");
+		
+	}
+	
+
+	@Given("three players connect to the server")
+	public void three_players_connect_to_the_server() {
+		int round = 1;
+		boolean lastRound1 = false;
+		int round1 = 0;
+		boolean lastRound2 = false;
+		int round2 = 0;
+		boolean lastRound3 = false;
+		int round3 = 0;
+		players = new PlayerClass[3];
+		player = new PlayerClass("Player 1");
+		player2 = new PlayerClass("Player 2");
+		player3 = new PlayerClass("Player 3");
+		
+		players[0] = player;
+		players[1] = player2;
+		players[2] = player3;
+		
+	}
+	
+	
+	@When("player {int} sees the scores")
+	public void player_one_sees_the_scores(int p) throws InterruptedException {
+		
+		Thread clientThread = new Thread() {
+		    public void run() {
+		    	
+					scores = new int[3];
+					player.setLastTurn(false);
+					player.clientConnection.receiveFortuneCard();
+					System.out.println("Received fcc");
+
+					//player.getGame().setFortuneCard(fcc);
+					
+					
+				
+		    	
+				
+		    }
+		};
+		
+		Thread serverThread = new Thread() {
+			public void run() {
+				try {
+					TimeUnit.SECONDS.sleep(1);
+					
+					server.getPlayerServer(1).sendFortuneCard();
+					System.out.println("Sent Fortune");
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		
+		
+		clientThread.start();
+		serverThread.start();
+		System.out.println("2");
+		clientThread.join();
+		System.out.println("1");
+		serverThread.join();
+		
+		
+		
+		turnsMade++;
+		
+		String[] dice = new String[8];
+		dice[0] = "Monkey";
+		dice[1] = "Monkey";
+		dice[2] = "Sword";
+		dice[3] = "Sword";
+		dice[4] = "Parrot";
+		dice[5] = "Parrot";
+		dice[6] = "Coin";
+		dice[7] = "Diamond"; 
+		
+		if(p == 1) {
+			player.getGame().setCurrentRoll(dice);
+			player.printScoreCard();
+
+			
+		}else if(p == 2) {
+			player2.getGame().setCurrentRoll(dice);
+			player2.printScoreCard();
+			
+			
+		}else if(p == 3) {
+			player3.getGame().setCurrentRoll(dice);
+			player3.printScoreCard();
+		}
+		
+		
+		
+	}
+	
+	@Then("player {int} sends the scores to the server")
+	public void player_sends_the_scores_to_the_server(int i) {
+		
+		
+	}
+	
+	@When("the server sends the scores to player {int} and {string} the final round")
+	public void the_server_sends_the_scores_to_player(int p, String end) {
+		turnsMade++;
+		boolean fin;
+		int[] scores = new int[3];
+		if(end.equals("it is")) {
+			fin = true;
+			
+		}else {
+			fin = false;
+			
+		}
+		//scores[p] = pServer.receiveScores()[0];
+		//pServer.sendPlayerScores(scores, false, false);
+		
+	}
+	
+	@When("player {int} presses three to score the round")
+	public void player_presses_three_to_score_the_round(int i) {
+		player.simulateRoundOutput(3);
+	}
+	
+	@When("")
+	public void player_preses_to_score_the_round(int i) throws InterruptedException {
+		Thread clientThread = new Thread() {
+		    public void run() {
+		    	try {
+		    		System.out.println("*********** Ended Round With Score of ***********");
+			    	player.score = player.score + player.scoreRound(1);
+					TimeUnit.SECONDS.sleep(3);
+					player.clientConnection.sendScore(player.score);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    	
+				
+		    }
+		};
+		
+		Thread serverThread = new Thread() {
+			public void run() {
+				server.getPlayerServer(i - 1).sendPlayers(players);
+				System.out.println("Server Thread");
+				server.playerServer[0].receiveScores();
+				System.out.println("Received Scores()");
+				//server.playerServer[0].sendPlayerScores(player.scores, false, true);
+				
+				
+			}
+			
+		};
+		
+		clientThread.start();
+		serverThread.start();
+		clientThread.join();
+		serverThread.join();
+		
+		player.scores = player.clientConnection.receivePlayerScores();
+		player.printPlayerScores = true;
+		player.printScoreCard();
 		
 	}
 	

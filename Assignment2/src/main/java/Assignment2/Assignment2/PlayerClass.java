@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class PlayerClass implements Serializable {
 	private static final long serialVersionUID = 1L; 
@@ -17,7 +18,7 @@ public class PlayerClass implements Serializable {
 	int playerId = 0;
 	boolean fChest = false;
 	int numP = 0;
-	private int score = 0;
+	int score = 0;
 	private int tempScore = 0;
 	private int diceUsed = 0;
 	private int deductionToSend = 0;
@@ -27,6 +28,8 @@ public class PlayerClass implements Serializable {
 	boolean finalMove = false;
 	int[] scores;
 	boolean printPlayerScores = false;
+	int testInput = 0;
+	boolean testClient = false;
 	
 	public static void main( String[] args ) throws Exception{
 		Scanner myObj = new Scanner(System.in);
@@ -58,7 +61,13 @@ public class PlayerClass implements Serializable {
 	 
 	public boolean getLastTurn() { return finalMove; }
 	 
-	public void connectToClient() { clientConnection = new Client(); }
+	public void connectToClient() throws InterruptedException { 
+		if(testClient) {
+			System.out.println("Begining Sleep");
+			TimeUnit.SECONDS.sleep(3);
+			System.out.println("Ended Sleep");
+		}
+		clientConnection = new Client(); }
 
 	public void connectToClient(int port) { clientConnection = new Client(port); }
 	
@@ -138,6 +147,34 @@ public class PlayerClass implements Serializable {
 		
 		System.out.println("Game ended");
 		System.out.println(clientConnection.receiveWinning());
+	
+	}
+	
+	public void simulateRoundOutput(int i) {
+		String one = "(1) Roll All Dice Again";
+		String two = "(2) Pick Dice To Re-Roll";
+		String three = "(3) Score This Round";
+		String four = "(4) Selct Dice to Hold In Treasure Chest";
+		String five = "(5) Remove Dice From Treasure Chest";
+		String[] holder = new String[5];
+		holder[0] = one;
+		holder[1] = two;
+		holder[2] = three;
+		holder[3] = four;
+		holder[4] = five;
+		
+		System.out.println("");
+		System.out.println("Select an action");
+		System.out.println(one);
+		System.out.println(two);
+		System.out.println(three);
+		if(game.getFortuneCard().equals("TC")){
+			System.out.println(four);
+			System.out.println(five);
+			
+		}
+		
+		System.out.println("\nThe user selected option " + holder[i-1]);
 	
 	}
 	
@@ -583,8 +620,10 @@ public class PlayerClass implements Serializable {
 			PlayerClass[] pl;
 			PlayerClass p = new PlayerClass(" ");
 			try {
+				System.out.println("I am in ");
 				pl = (PlayerClass[]) jIn.readObject();
 				pLength = pl.length;
+				System.out.println("I am out ");
 				return pl;
 
 			} catch (IOException e) {
@@ -654,8 +693,11 @@ public class PlayerClass implements Serializable {
 		
 		public String receiveFortuneCard() {
 			try {
+				System.out.println("Waiting to receive");
 				Object card = new Object();
+				System.out.println("Waiting to receive");
 				card = jIn.readObject();
+				System.out.println("Waiting to receive");
 				return card.toString();
 				
 			}catch(Exception e) {

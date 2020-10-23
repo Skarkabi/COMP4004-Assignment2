@@ -23,9 +23,16 @@ public class MainServer implements Serializable {
 	Server[] playerServer;
 	PlayerClass[] players;
 	ServerSocket ss;
-
+	boolean testSever = false;
+	
 	int numPlayers;
 	static int numConnectionNeeded;
+	
+	public Server getPlayerServer(int i) {
+		return playerServer[i - 1];
+	}
+	
+	public boolean getFinalTurn() { return finalTurn; }
 	
 	public static void setFortuneCards() {
 		for (int i = 0; i < 5; i++) {
@@ -122,6 +129,67 @@ public class MainServer implements Serializable {
 		
 	}
 	
+	
+	public void ConnectToTestClient1() throws ClassNotFoundException{
+		try {
+			System.out.println("Test Server Waiting for the Client Connections");
+			Socket s1 = ss.accept();
+			Server server1 = new Server (s1, 3);
+			server1.jOut.writeInt(1);
+			server1.jOut.flush();
+			
+			PlayerClass in1 = (PlayerClass) server1.jIn.readObject();
+			System.out.println("Player " + 1 + " ~ " + in1.getName() + " ~ has joined");
+			
+			players[0] = in1;
+			playerServer[0] = server1;
+			
+		}catch (IOException ex) {
+			System.out.println("Could not connect " + numPlayers + " players");
+		
+		}
+	}
+	
+	public void ConnectToTestClient2() throws ClassNotFoundException{
+		try {
+			System.out.println("Test Server Waiting for the Client Connections");
+			Socket s2 = ss.accept();
+			Server server2 = new Server (s2, 3);
+			server2.jOut.writeInt(2);
+			server2.jOut.flush();
+			
+			PlayerClass in2 = (PlayerClass) server2.jIn.readObject();
+			System.out.println("Player " + 2 + " ~ " + in2.getName() + " ~ has joined");
+			
+			players[1] = in2;
+			playerServer[1] = server2;
+			
+		}catch (IOException ex) {
+			System.out.println("Could not connect " + numPlayers + " players");
+		
+		}
+	}
+	
+	public void ConnectToTestClient3() throws ClassNotFoundException{
+		try {
+			System.out.println("Test Server Waiting for the Client Connections");
+			Socket s3 = ss.accept();
+			Server server3 = new Server (s3, 3);
+			server3.jOut.writeInt(3);
+			server3.jOut.flush();
+			
+			PlayerClass in3 = (PlayerClass) server3.jIn.readObject();
+			System.out.println("Player " + 3 + " ~ " + in3.getName() + " ~ has joined");
+			
+			players[2] = in3;
+			playerServer[2] = server3;
+			
+		}catch (IOException ex) {
+			System.out.println("Could not connect " + numPlayers + " players");
+		
+		}
+	}
+	
 	public void ConnectToClients() throws ClassNotFoundException{
 		try {
 			System.out.println("Waiting for " + numConnectionNeeded + " players to connect...");
@@ -139,13 +207,13 @@ public class MainServer implements Serializable {
 				players[server.pId - 1] = in;
 				playerServer[numPlayers - 1] = server;
 				
-			}
+				System.out.println(numPlayers + " players have joined the game");
 			
-			System.out.println(numPlayers + " players have joined the game");
-			
-			for(int i = 0; i < playerServer.length; i++) {
-				Thread t = new Thread(playerServer[i]);
-				t.start();
+				for(int i = 0; i < playerServer.length; i++) {
+					Thread t = new Thread(playerServer[i]);
+					t.start();
+				
+				}
 				
 			}
 				
@@ -154,7 +222,10 @@ public class MainServer implements Serializable {
 		
 		}
 		
+		
 	}
+	
+	
 	
 	public void gameLoop() {
 		boolean erase, first;
@@ -246,7 +317,9 @@ public class MainServer implements Serializable {
 			pId = id;
 			try {
 				jOut = new ObjectOutputStream(socket.getOutputStream());
+				System.out.println("I Sent The output");
 				jIn = new ObjectInputStream(socket.getInputStream());
+				
 				
 			}catch(IOException e){
 				System.out.println("Connection Failed!");
@@ -321,7 +394,9 @@ public class MainServer implements Serializable {
 				}
 				
 				Object card = fortuneCards[cardsTaken];
+				System.out.println("Sending this " + card.toString());
 				jOut.writeObject(card);
+				System.out.println("Sending this " + card.toString());
 				jOut.flush();
 				
 			}catch (IOException ex) {
